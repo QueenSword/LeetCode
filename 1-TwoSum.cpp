@@ -18,6 +18,7 @@ using namespace std;
 
 class Solution {
 public:
+
     //25ms
     vector<int> twoSum(vector<int> &numbers, int target) {
         vector<int> result;
