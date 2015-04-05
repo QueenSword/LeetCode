@@ -1,3 +1,6 @@
 main
 *.swp
 *.err
+*~
+.bak
+in.txt
