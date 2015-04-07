@@ -12,12 +12,13 @@
 =============================================================================*/
 
 #include <iostream>
+#include <vector>
 
 using namespace std;
 
 class Solution {
 public:
-    int strStr(char *haystack, char *needle) {
+    /*int strStr(char *haystack, char *needle) {
         int count = 0;
         while (*haystack != '\0') {
             int index = 0;
@@ -31,7 +32,21 @@ public:
             count ++;
         }
         return -1;
+    }*/
+    
+    void getNext(const char *needle, vector<int> &next) {
+        int k = -1, i = 0;
+        next[0] = -1;
+        while (i < strlen(needle)) {
+            if (k == -1 || p[k] == p[j]) {
+                p[++ i] = ++ k;
+            } else {
+                k = next[k];
+            }
+        }
+        return ;
     }
+
 };
 
 int main() {
