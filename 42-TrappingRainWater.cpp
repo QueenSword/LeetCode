@@ -18,6 +18,8 @@ using namespace std;
 
 class Solution {
 public:
+
+    //24ms Binary Search will be faster
     int trap(int A[], int n) {
         if (n < 3) {
             return 0;
@@ -34,32 +36,37 @@ public:
                 tmp ++;
             }
         }
-        for (int i = 0; i < points.size(); i ++) {
-            cout << points[i] << " ";
-        }
+        
         vector<int>::iterator it = points.begin() + 1;
-        while (it < points.end() - 1) {
-            if (*(it) <= *(it - 1) && *it <= *(it + 1)) {
+        bool flag = true;
+        while (flag) {
+            flag = false;
+            it = points.begin() + 1;
+            while (it < points.end() - 1) {
+
+            if (A[*(it)] <= A[*(it - 1)] && A[*it] <= A[*(it + 1)]) {
                 points.erase(it);
+                flag = true;
             } else {
                 it ++;
             }
+            }
         }
-        cout << endl;
-        for (int i = 0; i < points.size(); i ++) {
-            cout << points[i] << " ";
-        }
-        cout << endl
+        
         for (int i = 1; i < points.size(); i ++) {
-            result += min(A[points[i]], A[points[i - 1]]) * (points[i] - points[i - 1] - 1);
+            int height = min(A[points[i]], A[points[i - 1]]);
+            for (int j = points[i - 1] + 1; j < points[i]; j ++) {
+                
+                result += height > A[j] ? height - A[j] : 0;
+            }
         }
         return result;
     }
 };
 
 int main() {
-    int A[] = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
+    int A[] = {5, 2, 1, 2, 1, 5};
     Solution solution;
-    cout << solution.trap(A, 12) << endl;
+    cout << solution.trap(A, 6) << endl;
     return 0;
 }
