@@ -48,13 +48,18 @@ public:
     }
     bool isMatch(const char *s, const char *p) {
         int sLeng = strlen(s), pLeng = strlen(p);
-        vector<vector<bool> > dp(sLeng + 1, vector<bool>(pLeng + 1, false));
+        vector<vector<bool> > dp(sLeng + 1, vector<bool>(pLeng + 1, false)), flag(sLeng + 1, vector<bool>(pLeng + 1, false));
         for (int i = 0; i <= pLeng; i ++) {
             if (i == 0) {
                 dp[0][i] = true;
+                flag[0][i] = true;
                 continue;
             }
             dp[0][i] = p[i - 1] == '*' ? dp[0][i - 1] : false;
+            flag[0][i] = dp[0][i];
+        }
+        for (int i = 0; i <= sLeng; i ++) {
+            flag[i][0] = true;
         }
         for (int j = 1; j <= pLeng; j ++) {
             for (int i = 1; i <= sLeng; i ++) {
@@ -63,29 +68,40 @@ public:
                 } else if (p[j - 1] == '?') {
                     dp[i][j] = dp[i - 1][j - 1];
                 } else if (p[j - 1] == '*') {
-                    for (int k = 0; k < i; k ++) {
-                        if (dp[k][j - 1]) {
-                            dp[i][j] = true;
-                            break;
-                        }
-                    }    
+                    dp[i][j] = flag[i - 1][j - 1];
                 } else {
                     dp[i][j] = false;
                 }
-                 
+                
+                flag[i][j] = (dp[i][j] || flag[i - 1][j]);
             }
+        }
+        for (int i = 0; i <= sLeng; i ++) {
+            for (int j = 0; j <= pLeng; j ++) {
+                cout << dp[i][j] << " ";
+            }
+            cout << endl;
+        }
+        cout << endl;
+        for (int i = 0; i <= sLeng; i ++) {
+            for (int j = 0; j <= pLeng; j ++) {
+                cout << flag[i][j] << " ";
+            }
+            cout << endl;
         }
         return dp[sLeng][pLeng];
     }
 };
 
+
 int main() {
-    freopen("in.txt", "r", stdin);
+    //freopen("in.txt", "r", stdin);
     Solution solution;
-    for (int i = 0; i < 7; i ++) {
+    cout << solution.isMatch("aa", "*") << endl;
+    /*for (int i = 0; i < 7; i ++) {
         char a[20], b[20];
         cin >> a >> b;
         cout << solution.isMatch(a, b) << endl;
-    }
+    }*/
     return 0;
 }
