@@ -1,0 +1,46 @@
+/*=============================================================================
+#     FileName: 140-WordBreakII.cpp
+#         Desc: 
+#       Author: qsword
+#        Email: huangjian1993@gmail.com
+#     HomePage: 
+#      Created: 2015-05-10 09:03:18
+#      Version: 0.0.1
+#   LastChange: 2015-05-10 09:03:18
+#      History:
+#               0.0.1 | qsword | init
+=============================================================================*/
+
+#include <stdio.h>
+#include <unordered_set>
+#include <vector>
+#include <string>
+
+using namespace std;
+
+class Solution {
+public:
+    void dfs(vector<string> &result, string ret, string &s, int pos, unordered_set<string> &wordDict) {
+        int len = s.length();
+        if (pos == len) {
+            result.push_back(ret.substr(0, ret.length() - 1));
+            return ;
+        }
+        for (int i = pos; i < len; i ++) {
+            string tmp = s.substr(pos, i - pos + 1);
+            if (wordDict.find(tmp) != wordDict.end()) {
+                dfs(result, ret + tmp + " ", s, i + 1, wordDict);
+            }
+        }
+        return ;
+    }
+
+    vector<string> wordBreak(string s, unordered_set<string>& wordDict) {
+        vector<string> result;
+        if (s == "") {
+            return result;
+        }
+        dfs(result, "", s, 0, wordDict);
+        return result;
+    }
+};
