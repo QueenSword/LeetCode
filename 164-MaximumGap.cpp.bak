@@ -1,0 +1,26 @@
+/*=============================================================================
+#     FileName: 164-MaximumGap.cpp
+#         Desc: 
+#       Author: qsword
+#        Email: huangjian1993@gmail.com
+#     HomePage: 
+#      Created: 2015-05-12 11:54:45
+#      Version: 0.0.1
+#   LastChange: 2015-05-12 11:54:45
+#      History:
+#               0.0.1 | qsword | init
+=============================================================================*/
+
+#include <leetcode.h>
+
+class Solution {
+public:
+
+    int maximumGap(vector<int>& nums) {
+        int len = nums.size();
+        if (len < 2) {
+            return 0;
+        }
+    }
+
+};

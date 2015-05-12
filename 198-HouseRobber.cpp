@@ -18,6 +18,7 @@ using namespace std;
 
 class Solution {
 public:
+    //2ms
     int rob(vector<int> &num) {
         if (num.empty()) {
             return 0;
