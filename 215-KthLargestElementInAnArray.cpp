@@ -1,35 +1,34 @@
 /*=============================================================================
-#     FileName: 190-ReverseBits.cpp
+#     FileName: 215-KthLargestElementInAnArray.cpp
 #         Desc: 
 #       Author: Jian Huang
 #        Email: huangjian1993@gmail.com
 #     HomePage: 
-#      Created: 2015-06-17 21:34:49
+#      Created: 2015-06-18 11:49:29
 #      Version: 0.0.1
-#   LastChange: 2015-06-17 21:34:49
+#   LastChange: 2015-06-18 11:49:29
 #      History:
 #               0.0.1 | Jian Huang | init
 =============================================================================*/
 
 #include <iostream>
 #include <vector>
+#include <queue>
 
 using namespace std;
 
 class Solution {
 public:
-    //4ms
-    uint32_t reverseBits(uint32_t n) {
-        int len = 32;
-        vector<int> flag(len);
-        for (int i = 0; i < len; i ++) {
-            flag[i] = (n & (1 << i)) >> i;
+    //14ms
+    int findKthLargest(vector<int>& nums, int k) {
+        priority_queue<int> q;
+        for (auto num: nums) {
+            q.push(num);
         }
-        uint32_t result = 0;
-        for (int i = 0; i < len; i ++) {
-            if (flag[i]) {
-                result |= (1 << (len - i - 1));
-            }
+        int result;
+        for (int i = 0; i < k; i ++) {
+            result = q.top();
+            q.pop();
         }
         return result;
     }

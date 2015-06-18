@@ -14,24 +14,22 @@
 #include <iostream>
 #include <string>
 #include <vector>
-
+#include <map>
 using namespace std;
 
 class TrieNode {
 public:
     // Initialize your data structure here.
-    vector<TrieNode *> childs;
+    map<char, TrieNode*> childMap;
     bool isWord; 
     TrieNode() {
-        for (int i = 0; i < 26; i ++) {
-            childs.push_back(NULL);
-        }
         isWord = false;
     }
 };
 
 class Trie {
 public:
+    //144ms
     Trie() {
         root = new TrieNode();
     }
@@ -39,14 +37,12 @@ public:
     // Inserts a word into the trie.
     void insert(string s) {
         TrieNode* node = root;
-        int len = s.length();
-        for (int i = 0; i < len; i ++) {
-            TrieNode *child = node->childs[s[i] - 'a'];
-            if (!child) {
-                child = new TrieNode();
-                node->childs[s[i] - 'a'] = child;
+        for (auto c: s) {
+            if (node->childMap.find(c) == node->childMap.end()) {
+                TrieNode* child = new TrieNode();
+                node->childMap[c] = child;
             }
-            node = child;
+            node = node->childMap[c];
         }
         node->isWord = true;
     }
@@ -54,13 +50,11 @@ public:
     // Returns if the word is in the trie.
     bool search(string key) {
         TrieNode *node = root;
-        int len = key.length();
-        for (int i = 0; i < len; i ++) {
-            TrieNode *child = node->childs[key[i] - 'a'];
-            if (!child) {
+        for (auto c: key) {
+            if (node->childMap.find(c) == node->childMap.end()) {
                 return false;
             }
-            node = child;
+            node = node->childMap[c];
         }
         return node->isWord;
     }
@@ -68,13 +62,11 @@ public:
     // that starts with the given prefix.
     bool startsWith(string prefix) {
         TrieNode *node = root;
-        int len = prefix.length();
-        for (int i = 0; i < len; i ++) {
-            TrieNode *child = node->childs[prefix[i] - 'a'];
-            if (!child) {
+        for (auto c: prefix) {
+            if (node->childMap.find(c) == node->childMap.end()) {
                 return false;
             }
-            node = child;
+            node = node->childMap[c];
         }
         return true;
     }
