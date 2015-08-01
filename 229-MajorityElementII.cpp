@@ -1,6 +1,6 @@
 /*=============================================================================
 #     FileName: 229-MajorityElementII.cpp
-#         Desc: 
+#         Desc: AC
 #       Author: Jian Huang
 #        Email: huangjian1993@gmail.com
 #     HomePage: https://cn.linkedin.com/in/huangjian1993
@@ -16,57 +16,52 @@
 using namespace std;
 
 class Solution {
-
-public:
-    vector<int> majorityElement(vector<int>& nums) {
-        vector<int> result;
-        int len = nums.size();
-        if (len == 0) {
-            return result;
-        }
-        /*if (len < 3) {*/
-            //result.push_back(nums[0]);
-            //if (len == 2 && nums[0] != nums[1]) {
-                //result.push_back(nums[1]);
-            //}
-            //return result;
-        /*}*/
-        map<int, int> numMap;
-        map<int, int>::iterator it;
-        for (int i = 0; i < len; i ++) {
-            int num = nums[i];
-            if (numMap.size() < 2) {
-                if (numMap.find(num) == numMap.end()) {
-                    numMap.insert(pair<int, int>(num, 1));
+    public:
+        vector<int> majorityElement(vector<int>& nums) {
+            vector<int> result;
+            int len = nums.size();
+            int num1 = 0, num2 = 0, count1 = 0, count2 = 0;
+            for (int i = 0; i < len; i ++) {
+                int num = nums[i];
+                if (count1 == 0 || num1 == num) {
+                    num1 = num;
+                    count1 ++;
+                } else if (count2 == 0 || num2 == num) {
+                    num2 = num;
+                    count2 ++;
                 } else {
-                    numMap[num] ++;
-                }
-            } else {
-                for (it = numMap.begin(); it != numMap.end(); it ++) {
-                    numMap[it->first] --;
-                    if (numMap[it->first] == 0) {
-                        numMap.erase(it);
-                        numMap.insert(pair<int, int>(num, 1));
-                    }
+                    count1 --;
+                    count2 --;
                 }
             }
+            count1 = 0, count2 = 0;
+            for (int i = 0; i < len; i ++) {
+                int num = nums[i];
+                if (num == num1) {
+                    count1 ++;
+                } else if (num == num2) {
+                    count2 ++;
+                }
+            }
+            if (count1 > len / 3) {
+                result.push_back(num1);
+            }
+            if (count2 > len / 3) {
+                result.push_back(num2);
+            }
+            return result;
         }
-        for (it = numMap.begin(); it != numMap.end(); it ++) {
-            result.push_back(it->first);
-        }
-        return result;
-    }
 };
 
 int main() {
-    int num[] = {1, 1, 2, 2, 3, 5, 6, 1};
+    int num[] = {1, 1, 1, 3, 3, 2, 2, 2};
     vector<int> nums;
-    for (int i = 0; i < sizeof(num) / sizeof(int); i ++) {
+    for (int i = 0; i < (int)(sizeof(num) / sizeof(int)); i ++) {
         nums.push_back(num[i]);
     }
     Solution solution;
     vector<int> result = solution.majorityElement(nums);
-    for (int i = 0; i < result.size(); i ++) {
+    for (int i = 0; i < int(result.size()); i ++) {
         cout << result[i] << "  ";
     }
     cout << endl;
